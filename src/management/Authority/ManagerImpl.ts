@@ -1,7 +1,7 @@
-import AuthorityManager from "./AuthorityManager";
+import AuthorityManager from "./Manager";
 import { Repository, getRepository } from "typeorm";
-import { AuthorityActionType } from "../utils/CustomTypes";
-import { Authority } from "../entity/Authorities";
+import { AuthorityActionType } from "../../utils/CustomTypes";
+import { Authority } from "../../entity/Authorities";
 
 export default class AuthorityManagerImpl implements AuthorityManager {
   private authorityRepository: Repository<Authority>;

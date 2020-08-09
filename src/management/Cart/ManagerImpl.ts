@@ -1,11 +1,11 @@
-import User from "../entity/User";
-import ShoppingCartItem from "../entity/ShoppingCartItem";
-import InventoryItem from "../entity/InventoryItem";
-import CartManager, { UserCartItemsDataType } from "./CartManager";
-import UserManager from "./UserManager";
-import UserManagerImpl from "./UserManagerImpl";
-import ItemManager from "./ItemManager";
-import ItemManagerImpl from "./ItemManagerImpl";
+import User from "../../entity/User";
+import ShoppingCartItem from "../../entity/ShoppingCartItem";
+import InventoryItem from "../../entity/InventoryItem";
+import CartManager, { UserCartItemsDataType } from "./Manager";
+import UserManager from "../User/Manager";
+import UserManagerImpl from "../User/ManagerImpl";
+import ItemManager from "../Item/Manager";
+import ItemManagerImpl from "../Item/ManagerImpl";
 
 export default class CartManagerImpl implements CartManager {
   // Use data mapper pattern for maintainability

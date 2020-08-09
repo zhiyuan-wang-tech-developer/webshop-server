@@ -8,8 +8,8 @@ import {
   HeaderParam,
   Authorized,
 } from "routing-controllers";
-import CartManager from "../management/CartManager";
-import CartManagerImpl from "../management/CartManagerImpl";
+import CartManager from "../management/Cart/Manager";
+import CartManagerImpl from "../management/Cart/ManagerImpl";
 import { getUserIdFromAuthorizationHeader } from "../security/JsonWebToken";
 
 @JsonController("/cart")

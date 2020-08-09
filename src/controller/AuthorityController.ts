@@ -1,7 +1,7 @@
 import { JsonController, Get, Param } from "routing-controllers";
 import { AuthorityActionType } from "../utils/CustomTypes";
-import AuthorityManager from "../management/AuthorityManager";
-import AuthorityManagerImpl from "../management/AuthorityManagerImpl";
+import AuthorityManager from "../management/Authority/Manager";
+import AuthorityManagerImpl from "../management/Authority/ManagerImpl";
 
 @JsonController("/authorities")
 export class AuthorityController {

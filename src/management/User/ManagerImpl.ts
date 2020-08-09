@@ -2,17 +2,15 @@ import {
   LoginDataPayloadType,
   JWTDataPayloadType,
   signData,
-} from "../security/JsonWebToken";
+} from "../../security/JsonWebToken";
 import { NotFoundError, BadRequestError } from "routing-controllers";
 import { getRepository, Repository, UpdateResult, DeleteResult } from "typeorm";
-import User from "../entity/User";
-import ShoppingCart from "../entity/ShoppingCart";
-import UserManager from "./UserManager";
-import ShoppingCartItem from "../entity/ShoppingCartItem";
+import User from "../../entity/User";
+import ShoppingCart from "../../entity/ShoppingCart";
+import UserManager from "./Manager";
+import ShoppingCartItem from "../../entity/ShoppingCartItem";
 
 export default class UserManagerImpl implements UserManager {
-  // private cartManager: CartManager;
-
   // Use data mapper pattern for maintainability
   private userRepository: Repository<User>;
 

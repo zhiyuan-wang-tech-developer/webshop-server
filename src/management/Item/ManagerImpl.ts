@@ -1,7 +1,8 @@
 import { getRepository, Repository, DeleteResult } from "typeorm";
-import InventoryItem from "../entity/InventoryItem";
-import ItemManager from "./ItemManager";
+import InventoryItem from "../../entity/InventoryItem";
+import ItemManager from "./Manager";
 import { NotFoundError } from "routing-controllers";
+import { QueryPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 
 export default class ItemManagerImpl implements ItemManager {
   // Use data mapper pattern for maintainability
@@ -41,6 +42,18 @@ export default class ItemManagerImpl implements ItemManager {
       where: { status },
     });
     return items;
+  }
+
+  // TODO: finish the get items by multiple factors
+  async getItemsByFactors(factors: QueryPartialEntity<InventoryItem>) {
+    const items = this.inventoryItemRepository.find({
+      where: {
+        name: factors.name,
+        category: factors.category,
+        status: factors.status,
+        quantityInStock: factors.quantityInStock,
+      },
+    });
   }
 
   async updateItem(

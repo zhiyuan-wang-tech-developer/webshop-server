@@ -8,8 +8,8 @@ import {
   Put,
   Delete,
 } from "routing-controllers";
-import GroupManager from "../management/GroupManager";
-import GroupManagerImpl from "../management/GroupManagerImpl";
+import GroupManager from "../management/Group/Manager";
+import GroupManagerImpl from "../management/Group/ManagerImpl";
 import { Group } from "../entity/Groups";
 
 @JsonController("/admin/groups")

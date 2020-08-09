@@ -1,4 +1,4 @@
-import { AuthorityActionType } from "../utils/CustomTypes";
+import { AuthorityActionType } from "../../utils/CustomTypes";
 
 export default interface AuthorityManager {
   getGroupByTableAndAction(

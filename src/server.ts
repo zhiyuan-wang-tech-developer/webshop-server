@@ -12,6 +12,7 @@ import { CartController } from "./controller/CartController";
 import { GroupController } from "./controller/GroupController";
 import { AdminUserController } from "./controller/AdminUserController";
 import { AuthorityController } from "./controller/AuthorityController";
+import { OptionsController } from "./controller/OptionsController";
 
 const PORT = process.env.PORT || ServerConfiguration.PORT;
 const koaApp = new Koa(); // creates Koa server app instance
@@ -29,6 +30,7 @@ export const startServer = () => {
       GroupController,
       AdminUserController,
       AuthorityController,
+      OptionsController,
     ], // we specify controllers we want to use
     middlewares: [KoaLogger],
     classTransformer: true,

@@ -8,8 +8,8 @@ import {
   Put,
   Delete,
 } from "routing-controllers";
-import AdminUserManager from "../management/AdminUserManager";
-import AdminUserManagerImpl from "../management/AdminUserManagerImpl";
+import AdminUserManager from "../management/AdminUser/Manager";
+import AdminUserManagerImpl from "../management/AdminUser/ManagerImpl";
 import AdminUser from "../entity/AdminUsers";
 import { Group } from "../entity/Groups";
 

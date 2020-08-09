@@ -9,8 +9,8 @@ import {
   QueryParam,
 } from "routing-controllers";
 import User from "../entity/User";
-import UserManager from "../management/UserManager";
-import UserManagerImpl from "../management/UserManagerImpl";
+import UserManager from "../management/User/Manager";
+import UserManagerImpl from "../management/User/ManagerImpl";
 import { LoginDataPayloadType } from "../security/JsonWebToken";
 
 @JsonController("/users")

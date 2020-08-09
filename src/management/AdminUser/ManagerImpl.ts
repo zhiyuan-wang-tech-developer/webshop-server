@@ -1,7 +1,7 @@
 import { NotFoundError } from "routing-controllers";
 import { getRepository, Repository, DeleteResult } from "typeorm";
-import AdminUser from "../entity/AdminUsers";
-import AdminUserManager from "./AdminUserManager";
+import AdminUser from "../../entity/AdminUsers";
+import AdminUserManager from "./Manager";
 
 export default class AdminUserManagerImpl implements AdminUserManager {
   // Use data mapper pattern for maintainability

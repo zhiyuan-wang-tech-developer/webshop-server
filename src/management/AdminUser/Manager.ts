@@ -1,4 +1,4 @@
-import AdminUser from "../entity/AdminUsers";
+import AdminUser from "../../entity/AdminUsers";
 
 export default interface AdminUserManager {
   createAdminUser(adminUser: AdminUser): Promise<AdminUser>;

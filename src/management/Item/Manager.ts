@@ -1,4 +1,4 @@
-import InventoryItem from "../entity/InventoryItem";
+import InventoryItem from "../../entity/InventoryItem";
 
 export default interface ItemManager {
   createItem(item: InventoryItem): Promise<InventoryItem>;

@@ -1,4 +1,4 @@
-import { Group } from "../entity/Groups";
+import { Group } from "../../entity/Groups";
 
 export default interface GroupManager {
   getGroups(): Promise<Group[]>;

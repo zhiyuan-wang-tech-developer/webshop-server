@@ -1,5 +1,5 @@
-import User from "../entity/User";
-import { LoginDataPayloadType } from "../security/JsonWebToken";
+import User from "../../entity/User";
+import { LoginDataPayloadType } from "../../security/JsonWebToken";
 
 export default interface UserManager {
   createUser(user: User): Promise<User>;

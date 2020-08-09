@@ -9,8 +9,8 @@ import {
   HttpCode,
 } from "routing-controllers";
 import InventoryItem from "../entity/InventoryItem";
-import ItemManager from "../management/ItemManager";
-import ItemManagerImpl from "../management/ItemManagerImpl";
+import ItemManager from "../management/Item/Manager";
+import ItemManagerImpl from "../management/Item/ManagerImpl";
 
 @JsonController("/items")
 export class ItemsController {

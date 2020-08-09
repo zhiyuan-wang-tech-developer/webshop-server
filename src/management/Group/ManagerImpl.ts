@@ -1,6 +1,6 @@
 import { getRepository, Repository, DeleteResult } from "typeorm";
-import { Group } from "../entity/Groups";
-import GroupManager from "./GroupManager";
+import { Group } from "../../entity/Groups";
+import GroupManager from "./Manager";
 import { NotFoundError } from "routing-controllers";
 
 export default class GroupManagerImpl implements GroupManager {
