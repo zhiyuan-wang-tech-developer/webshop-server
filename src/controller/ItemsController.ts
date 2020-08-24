@@ -1,6 +1,7 @@
 import {
   JsonController,
   Param,
+  QueryParams,
   Body,
   Get,
   Post,
@@ -22,29 +23,28 @@ export class ItemsController {
 
   @Get()
   async getItems() {
-    console.log("This action returns all items");
+    // console.log("This action returns all items");
     const items = await this.itemManager.getAllItems();
     return { items };
   }
 
-  @Get("/:id")
+  @Get("/id/:id")
   async getItemById(@Param("id") id: number) {
-    console.log(`This action returns item #${id}`);
     const item = await this.itemManager.getItemById(id);
     return { item };
   }
 
-  @Get("/status/:status")
-  async getItemsByStatus(@Param("status") status: string) {
-    console.log(status);
-    const items = await this.itemManager.getItemsByStatus(status);
-    return { items };
+  @Get("/find")
+  async getItemsByQuery(@QueryParams() params: any) {
+    const { items, count } = await this.itemManager.getItemsByMultipleFactors(
+      params
+    );
+    return { items, count };
   }
 
   @Post()
   @HttpCode(201) // Set the default HTTP response code 201 Created
   async createItem(@Body() item: InventoryItem) {
-    console.log(`Creating item: ${JSON.stringify(item)}`);
     const createdItem: InventoryItem = await this.itemManager.createItem(item);
     return { createdItem };
   }
@@ -54,7 +54,6 @@ export class ItemsController {
     @Param("id") id: number,
     @Body() item: Partial<InventoryItem>
   ) {
-    console.log(`Updating item #${id} ${JSON.stringify(item)}`);
     const updatedItem: InventoryItem = await this.itemManager.updateItem(
       id,
       item
@@ -64,7 +63,6 @@ export class ItemsController {
 
   @Delete("/:id")
   async deleteItem(@Param("id") id: number) {
-    console.log(`Deleting item #${id}`);
     // TODO: Check cart item constraint
     const itemIsDeleted: boolean = await this.itemManager.deleteItem(id);
     return { itemIsDeleted };

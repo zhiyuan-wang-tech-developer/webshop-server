@@ -11,7 +11,6 @@ import {
 import AdminUserManager from "../management/AdminUser/Manager";
 import AdminUserManagerImpl from "../management/AdminUser/ManagerImpl";
 import AdminUser from "../entity/AdminUsers";
-import { Group } from "../entity/Groups";
 
 @JsonController("/admin/users")
 export class AdminUserController {

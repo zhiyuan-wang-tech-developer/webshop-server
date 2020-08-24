@@ -1,5 +1,6 @@
 export const ServerConfiguration = {
-  PORT: 3001,
+  PORT1: 3001,
+  PORT2: 3002,
 };
 
 export const DatabaseConfiguration = {};

@@ -1,0 +1,5 @@
+type Table {
+  id: Int
+  name: String
+  description: String
+}

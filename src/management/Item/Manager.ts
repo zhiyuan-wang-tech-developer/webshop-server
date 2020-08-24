@@ -7,6 +7,13 @@ export default interface ItemManager {
 
   getItemsByStatus(status: string): Promise<InventoryItem[]>;
 
+  getItemsByMultipleFactors(
+    factors: any
+  ): Promise<{
+    items: InventoryItem[];
+    count: number;
+  }>;
+
   getAllItems(): Promise<InventoryItem[]>;
 
   updateItem(

@@ -1,7 +1,8 @@
 import AuthorityManager from "./Manager";
-import { Repository, getRepository } from "typeorm";
-import { AuthorityActionType } from "../../utils/CustomTypes";
+import { Repository, getRepository, DeleteResult } from "typeorm";
+import { AuthorityAction } from "../../utils/CustomTypes";
 import { Authority } from "../../entity/Authorities";
+import { Table } from "../../entity/Tables";
 
 export default class AuthorityManagerImpl implements AuthorityManager {
   private authorityRepository: Repository<Authority>;
@@ -10,9 +11,9 @@ export default class AuthorityManagerImpl implements AuthorityManager {
     this.authorityRepository = getRepository(Authority);
   }
 
-  async getGroupByTableAndAction(
+  async getGroupsByTableAndAction(
     tableId: number,
-    action: AuthorityActionType
+    action: AuthorityAction
   ): Promise<number[]> {
     const authorities: Authority[] = await this.authorityRepository.find({
       where: { tableId, action },
@@ -23,16 +24,52 @@ export default class AuthorityManagerImpl implements AuthorityManager {
     return groupIds;
   }
 
-  async getAllActionsByGroupAndTable(
+  async getActionsByGroupAndTable(
     groupId: number,
     tableId: number
-  ): Promise<AuthorityActionType[]> {
+  ): Promise<AuthorityAction[]> {
     const authorities: Authority[] = await this.authorityRepository.find({
       where: { groupId, tableId },
     });
-    const actions: AuthorityActionType[] = authorities.map(
+    const actions: AuthorityAction[] = authorities.map(
       (authority: Authority) => authority.action
     );
     return actions;
+  }
+
+  async getAuthoritiesByGroupAndTable(
+    groupId: number,
+    tableId: number
+  ): Promise<Authority[]> {
+    const authorities: Authority[] = await this.authorityRepository.find({
+      where: { groupId, tableId },
+    });
+    return authorities;
+  }
+
+  async getTables(): Promise<Table[]> {
+    const tables: Table[] = await Table.find();
+    return tables;
+  }
+
+  async createAuthority(authority: Authority): Promise<Authority> {
+    const createdAuthority: Authority = await this.authorityRepository.save(
+      authority
+    );
+    return createdAuthority;
+  }
+
+  async deleteAuthority(authority: Authority): Promise<boolean> {
+    const authorityToDelete: any = this.authorityRepository.findOne({
+      where: { ...authority },
+    });
+    if (!authorityToDelete) {
+      return false;
+    }
+
+    const result: DeleteResult = await this.authorityRepository.delete(
+      authorityToDelete
+    );
+    return result.affected && result.affected === 1 ? true : false;
   }
 }

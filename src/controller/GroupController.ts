@@ -8,10 +8,12 @@ import {
   Put,
   Delete,
 } from "routing-controllers";
+import { Controller, Query } from "vesper";
 import GroupManager from "../management/Group/Manager";
 import GroupManagerImpl from "../management/Group/ManagerImpl";
 import { Group } from "../entity/Groups";
 
+@Controller()
 @JsonController("/admin/groups")
 export class GroupController {
   private groupManager: GroupManager;
@@ -24,6 +26,13 @@ export class GroupController {
   async getGroups() {
     const groups: Group[] = await this.groupManager.getGroups();
     return { groups };
+  }
+
+  // serve the query request "groups: [Group]"
+  @Query()
+  async groups() {
+    const groups: Group[] = await this.groupManager.getGroups();
+    return groups;
   }
 
   @Get("/:id")

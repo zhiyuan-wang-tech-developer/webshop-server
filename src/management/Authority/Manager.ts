@@ -1,13 +1,26 @@
-import { AuthorityActionType } from "../../utils/CustomTypes";
+import { AuthorityAction } from "../../utils/CustomTypes";
+import { Table } from "../../entity/Tables";
+import { Authority } from "../../entity/Authorities";
 
 export default interface AuthorityManager {
-  getGroupByTableAndAction(
+  getGroupsByTableAndAction(
     tableId: number,
-    action: AuthorityActionType
+    action: AuthorityAction
   ): Promise<number[]>;
 
-  getAllActionsByGroupAndTable(
+  getActionsByGroupAndTable(
     groupId: number,
     tableId: number
-  ): Promise<AuthorityActionType[]>;
+  ): Promise<AuthorityAction[]>;
+
+  getAuthoritiesByGroupAndTable(
+    groupId: number,
+    tableId: number
+  ): Promise<Authority[]>;
+
+  getTables(): Promise<Table[]>;
+
+  createAuthority(authority: Authority): Promise<Authority>;
+
+  deleteAuthority(authority: Authority): Promise<boolean>;
 }

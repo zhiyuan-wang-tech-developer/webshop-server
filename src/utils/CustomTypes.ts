@@ -18,15 +18,16 @@ export enum InventoryItemCategory {
   OTHERS = "Others",
 }
 
-export enum UserGroupType {
+export enum UserGroup {
   ADMIN = "ADMIN",
   MANAGER = "MANAGER",
   CLIENT = "CLIENT",
 }
 
-export enum AuthorityActionType {
+export enum AuthorityAction {
+  ALL = "all",
   GET = "get",
   ADD = "add",
-  UPDATE = "update",
+  EDIT = "edit",
   DELETE = "delete",
 }

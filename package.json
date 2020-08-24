@@ -27,7 +27,8 @@
       "pg": "^7.18.2",
       "reflect-metadata": "^0.1.10",
       "routing-controllers": "^0.9.0-alpha.4",
-      "typeorm": "0.2.25"
+      "typeorm": "0.2.25",
+      "vesper": "^0.1.9"
    },
    "devDependencies": {
       "@types/jsonwebtoken": "^8.5.0",

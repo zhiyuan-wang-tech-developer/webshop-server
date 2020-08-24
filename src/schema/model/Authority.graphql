@@ -1,0 +1,6 @@
+type Authority {
+  id: Int
+  groupId: Int
+  tableId: Int
+  action: String
+}

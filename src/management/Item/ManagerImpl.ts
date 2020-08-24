@@ -2,7 +2,6 @@ import { getRepository, Repository, DeleteResult } from "typeorm";
 import InventoryItem from "../../entity/InventoryItem";
 import ItemManager from "./Manager";
 import { NotFoundError } from "routing-controllers";
-import { QueryPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 
 export default class ItemManagerImpl implements ItemManager {
   // Use data mapper pattern for maintainability
@@ -44,16 +43,69 @@ export default class ItemManagerImpl implements ItemManager {
     return items;
   }
 
-  // TODO: finish the get items by multiple factors
-  async getItemsByFactors(factors: QueryPartialEntity<InventoryItem>) {
-    const items = this.inventoryItemRepository.find({
-      where: {
-        name: factors.name,
-        category: factors.category,
-        status: factors.status,
-        quantityInStock: factors.quantityInStock,
-      },
-    });
+  async getItemsByMultipleFactors(
+    factors: any
+  ): Promise<{ items: InventoryItem[]; count: number }> {
+    const {
+      category,
+      status,
+      minPrice,
+      maxPrice,
+      minQuantityInStock,
+      maxQuantityInStock,
+      name,
+      description,
+      id,
+      offset,
+      limit,
+    } = factors;
+
+    const queryCondition: string =
+      "(item.category = :category OR :categoryIsNull)" +
+      "AND (item.status = :status OR :statusIsNull)" +
+      "AND (item.price >= :minPrice OR :minPriceIsNull)" +
+      "AND (item.price <= :maxPrice OR :maxPriceIsNull)" +
+      "AND (item.quantityInStock >= :minQuantityInStock OR :minQuantityInStockIsNull)" +
+      "AND (item.quantityInStock <= :maxQuantityInStock OR :maxQuantityInStockIsNull)" +
+      "AND (item.name = :name OR :nameIsNull)" +
+      "AND (item.description LIKE :description OR :descriptionIsNull)" +
+      "AND (item.id = :id OR :idIsNull)";
+
+    // Set the number of results to skip, for security we impose skip <= 1000
+    const skip = Math.min(offset || 0, 1000);
+    // Set the number of results to take, for security we impose take <= 50
+    const take = Math.min(limit || 10, 50);
+
+    const [items, count] = await this.inventoryItemRepository
+      .createQueryBuilder("item")
+      .where(queryCondition, {
+        category,
+        categoryIsNull: category == null,
+        status,
+        statusIsNull: status == null,
+        minPrice,
+        minPriceIsNull: minPrice == null,
+        maxPrice,
+        maxPriceIsNull: maxPrice == null,
+        minQuantityInStock,
+        minQuantityInStockIsNull: minQuantityInStock == null,
+        maxQuantityInStock,
+        maxQuantityInStockIsNull: maxQuantityInStock == null,
+        name,
+        nameIsNull: name == null,
+        description: "%" + description + "%",
+        descriptionIsNull: description == null,
+        id,
+        idIsNull: id == null,
+      })
+      .skip(skip)
+      .take(take)
+      .getManyAndCount();
+
+    return {
+      items,
+      count,
+    };
   }
 
   async updateItem(
@@ -61,11 +113,13 @@ export default class ItemManagerImpl implements ItemManager {
     item: Partial<InventoryItem>
   ): Promise<InventoryItem> {
     const itemToUpdate: InventoryItem = await this.getItemById(itemId);
-    if (item.itemDetail) {
-      Object.assign(itemToUpdate.itemDetail, item.itemDetail);
-      // To avoid to create new item detail to conflict with existent item detail in following "assign" function.
-      delete item.itemDetail;
-    }
+
+    console.log(itemId);
+    // if (item.itemDetail) {
+    //   Object.assign(itemToUpdate.itemDetail, item.itemDetail);
+    //   // To avoid to create new item detail to conflict with existent item detail in following "assign" function.
+    //   delete item.itemDetail;
+    // }
     Object.assign(itemToUpdate, item);
     return await itemToUpdate.save();
   }

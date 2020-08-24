@@ -1,0 +1,10 @@
+type Query {
+  groups: [Group]
+  tables: [Table]
+  authorities(groupId: Int, tableId: Int): [Authority]
+}
+
+type Mutation {
+  authorityCreate(groupId: Int, tableId: Int, action: String): Authority
+  authorityDelete(groupId: Int, tableId: Int, action: String): Boolean
+}

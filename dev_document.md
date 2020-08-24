@@ -66,6 +66,12 @@ We validate the form with **Formik** and **Yup**
     "start": "cross-env BROWSER=chrome react-scripts start"
 ```
 
+### Add apollo client
+
+```
+    npm install --save @apollo/client graphql
+```
+
 # Server
 
 ## Project config
@@ -162,4 +168,12 @@ We validate the form with **Formik** and **Yup**
 
 ```
     npm install --save bcrypt @types/bcrypt
+```
+
+### Vesper
+
+1. Install **Vesper** to integrate TypeORM and GraphQL
+
+```
+    npm install --save vesper
 ```

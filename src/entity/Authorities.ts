@@ -1,6 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
-import { AuthorityActionType } from "../utils/CustomTypes";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  Unique,
+} from "typeorm";
+import { AuthorityAction } from "../utils/CustomTypes";
 
+// @Unique(["groupId", "tableId", "action"])
 @Entity({ name: "Authority" })
 export class Authority extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -13,5 +20,5 @@ export class Authority extends BaseEntity {
   tableId!: number;
 
   @Column()
-  action: AuthorityActionType = AuthorityActionType.GET;
+  action: AuthorityAction = AuthorityAction.GET;
 }
