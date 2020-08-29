@@ -1,6 +1,6 @@
 type Query {
-  groups: [Group]
   tables: [Table]
+  actions(groupId: Int, tableId: Int): [String]
   authorities(groupId: Int, tableId: Int): [Authority]
 }
 

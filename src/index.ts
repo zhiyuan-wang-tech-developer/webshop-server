@@ -1,7 +1,7 @@
-import { startDatabase } from "./database";
-import { startKoaServer } from "./server";
-import { startGraphQLServer } from "./graphql";
+import { startServerDatabase } from "./serverDatabase";
+import { startServerRESTAPI } from "./serverRESTAPI";
+import { startServerGraphQL } from "./serverGraphQL";
 
-startDatabase();
-startKoaServer();
-startGraphQLServer();
+startServerDatabase();
+startServerRESTAPI();
+startServerGraphQL();

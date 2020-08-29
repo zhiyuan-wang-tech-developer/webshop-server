@@ -60,16 +60,20 @@ export default class AuthorityManagerImpl implements AuthorityManager {
   }
 
   async deleteAuthority(authority: Authority): Promise<boolean> {
-    const authorityToDelete: any = this.authorityRepository.findOne({
-      where: { ...authority },
-    });
-    if (!authorityToDelete) {
+    const authorityToDelete: Authority = await this.authorityRepository.findOneOrFail(
+      {
+        where: { ...authority },
+      }
+    );
+
+    if (!authorityToDelete.id) {
       return false;
     }
 
     const result: DeleteResult = await this.authorityRepository.delete(
-      authorityToDelete
+      authorityToDelete.id
     );
+
     return result.affected && result.affected === 1 ? true : false;
   }
 }

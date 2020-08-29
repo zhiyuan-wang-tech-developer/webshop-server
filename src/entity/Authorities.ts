@@ -7,8 +7,8 @@ import {
 } from "typeorm";
 import { AuthorityAction } from "../utils/CustomTypes";
 
-// @Unique(["groupId", "tableId", "action"])
 @Entity({ name: "Authority" })
+@Unique(["groupId", "tableId", "action"])
 export class Authority extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number;

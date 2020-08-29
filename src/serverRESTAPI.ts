@@ -17,7 +17,7 @@ import { ServerConfiguration } from "./constants/config";
 const PORT = process.env.PORT || ServerConfiguration.PORT1;
 const koaApp = new Koa(); // creates Koa server app instance
 
-export const startKoaServer = () => {
+export const startServerRESTAPI = () => {
   // koaApp.use() // you can configure the use of middleware globally
 
   // register created koa server app in routing-controllers
@@ -42,9 +42,9 @@ export const startKoaServer = () => {
   koaApp.listen(PORT, () => {
     console.log(
       chalk.blueBright(
-        `${new Date().toLocaleString()}: Start listening on http://localhost:${chalk.yellowBright(
+        `${new Date().toLocaleString()}: Start REST API server up and running on http://localhost:${chalk.yellowBright(
           PORT
-        )}`
+        )}.`
       )
     );
   });

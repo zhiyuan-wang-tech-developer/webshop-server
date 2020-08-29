@@ -1,7 +1,7 @@
 import { bootstrap } from "vesper";
-import { blueBright, cyanBright } from "chalk";
-import { AuthorityController } from "./controller/AuthorityController";
-import { GroupController } from "./controller/GroupController";
+import { blueBright, yellowBright } from "chalk";
+import { AuthorityController } from "./graphql/controller/AuthorityController";
+import { GroupController } from "./graphql/controller/GroupController";
 import { Authority } from "./entity/Authorities";
 import { Group } from "./entity/Groups";
 import { Table } from "./entity/Tables";
@@ -9,22 +9,24 @@ import { ServerConfiguration } from "./constants/config";
 
 const PORT = ServerConfiguration.PORT2;
 
-export const startGraphQLServer = () => {
+export const startServerGraphQL = () => {
   bootstrap({
     port: PORT,
     controllers: [AuthorityController, GroupController],
     entities: [Authority, Group, Table],
-    schemas: [__dirname + "/schema/**/*.graphql"],
+    schemas: [__dirname + "/graphql/schema/**/*.graphql"],
     cors: true,
   })
     .then(() => {
       console.log(
         blueBright(
           `${new Date().toLocaleString()}: ` +
-            `Your app is up and running on http://localhost:${cyanBright(
+            `Start GraphQL server up and running on http://localhost:${yellowBright(
               PORT
-            )}. ` +
-            `You can use playground in development mode on http://localhost:${PORT}/playground.`
+            )}/graphql. ` +
+            `You can use playground in development mode on http://localhost:${yellowBright(
+              PORT
+            )}/playground.`
         )
       );
     })

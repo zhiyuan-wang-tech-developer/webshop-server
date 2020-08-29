@@ -72,6 +72,13 @@ We validate the form with **Formik** and **Yup**
     npm install --save @apollo/client graphql
 ```
 
+### Add Material-UI Framework
+
+```
+    npm install --save @material-ui/core
+    npm install --save @material-ui/lab
+```
+
 # Server
 
 ## Project config
