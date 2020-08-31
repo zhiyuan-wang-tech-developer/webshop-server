@@ -53,6 +53,22 @@ export default class AuthorityManagerImpl implements AuthorityManager {
   }
 
   async createAuthority(authority: Authority): Promise<Authority> {
+    const { groupId, tableId, action } = authority;
+
+    if (action === AuthorityAction.ALL) {
+      // find all authorities when action is 'all'
+      const authorities = await this.getAuthoritiesByGroupAndTable(
+        groupId,
+        tableId
+      );
+      // delete all authorities whose action is not 'all'
+      if (authorities.length > 0) {
+        authorities.forEach(async (authority) => {
+          await this.authorityRepository.delete(authority.id!);
+        });
+      }
+    }
+
     const createdAuthority: Authority = await this.authorityRepository.save(
       authority
     );

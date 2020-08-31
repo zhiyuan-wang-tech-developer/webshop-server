@@ -32,6 +32,12 @@ export class AuthorityController {
     return { groupIds };
   }
 
+  @Get("/tables")
+  async getTables() {
+    const tables = await this.authorityManager.getTables();
+    return { tables };
+  }
+
   @Get("/group/:groupId/table/:tableId")
   async getActions(
     @Param("groupId") groupId: number,
