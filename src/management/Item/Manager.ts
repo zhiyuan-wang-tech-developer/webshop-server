@@ -10,8 +10,10 @@ export default interface ItemManager {
   getItemsByMultipleFactors(
     factors: any
   ): Promise<{
-    items: InventoryItem[];
-    count: number;
+    itemsTotal: number;
+    pageItems: InventoryItem[];
+    pageCurrent: number;
+    pageTotal: number;
   }>;
 
   getAllItems(): Promise<InventoryItem[]>;

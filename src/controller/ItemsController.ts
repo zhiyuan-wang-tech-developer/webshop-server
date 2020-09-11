@@ -36,10 +36,13 @@ export class ItemsController {
 
   @Get("/find")
   async getItemsByQuery(@QueryParams() params: any) {
-    const { items, count } = await this.itemManager.getItemsByMultipleFactors(
-      params
-    );
-    return { items, count };
+    const {
+      itemsTotal,
+      pageItems,
+      pageCurrent,
+      pageTotal,
+    } = await this.itemManager.getItemsByMultipleFactors(params);
+    return { itemsTotal, pageItems, pageCurrent, pageTotal };
   }
 
   @Post()

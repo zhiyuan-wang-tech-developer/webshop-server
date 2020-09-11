@@ -1,5 +1,5 @@
 import User from "../../entity/User";
-import { LoginDataPayloadType } from "../../security/JsonWebToken";
+import { LoginDataPayload } from "../../security/JsonWebToken";
 
 export default interface UserManager {
   createUser(user: User): Promise<User>;
@@ -14,5 +14,5 @@ export default interface UserManager {
 
   deleteUser(id: number): Promise<boolean>;
 
-  loginUser(loginData: LoginDataPayloadType): Promise<string>;
+  loginUser(loginData: LoginDataPayload): Promise<string>;
 }

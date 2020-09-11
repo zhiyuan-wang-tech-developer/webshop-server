@@ -1,11 +1,15 @@
 import AdminUser from "../../entity/AdminUsers";
+import { TableAction } from "../../utils/CustomTypes";
+import { LoginDataPayload } from "../../security/JsonWebToken";
 
 export default interface AdminUserManager {
-  createAdminUser(adminUser: AdminUser): Promise<AdminUser>;
-
   getAdminUserById(adminUserId: number): Promise<AdminUser>;
 
+  getTableActionsByAdminUser(adminUserId: number): Promise<TableAction[]>;
+
   getAdminUsers(): Promise<AdminUser[]>;
+
+  createAdminUser(adminUser: AdminUser): Promise<AdminUser>;
 
   updateAdminUser(
     adminUserId: number,
@@ -13,4 +17,6 @@ export default interface AdminUserManager {
   ): Promise<AdminUser>;
 
   deleteAdminUser(adminUserId: number): Promise<boolean>;
+
+  loginAdminUser(loginData: LoginDataPayload): Promise<AdminUser>;
 }

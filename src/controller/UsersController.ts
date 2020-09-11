@@ -11,7 +11,7 @@ import {
 import User from "../entity/User";
 import UserManager from "../management/User/Manager";
 import UserManagerImpl from "../management/User/ManagerImpl";
-import { LoginDataPayloadType } from "../security/JsonWebToken";
+import { LoginDataPayload } from "../security/JsonWebToken";
 
 @JsonController("/users")
 export class UsersController {
@@ -58,7 +58,7 @@ export class UsersController {
   }
 
   @Post("/login")
-  async loginUser(@Body() loginData: LoginDataPayloadType) {
+  async loginUser(@Body() loginData: LoginDataPayload) {
     const token: string = await this.userManager.loginUser(loginData);
     return { token };
   }

@@ -10,7 +10,7 @@ import { IsString, IsEmail } from "class-validator";
 import { Exclude } from "class-transformer";
 import { Group } from "./Groups";
 
-@Entity({ name: "AdminUsers" })
+@Entity({ name: "AdminUsers", orderBy: { id: "ASC" } })
 export default class AdminUser extends BaseEntity {
   @PrimaryGeneratedColumn({ name: "Id" })
   id?: number;

@@ -31,3 +31,9 @@ export enum AuthorityAction {
   EDIT = "edit",
   DELETE = "delete",
 }
+
+export type TableAction = {
+  tableId: number;
+  tableName: string;
+  actions: AuthorityAction[];
+};

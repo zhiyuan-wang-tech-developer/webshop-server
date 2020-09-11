@@ -1,4 +1,5 @@
 import { getRepository, Repository, DeleteResult } from "typeorm";
+import buildPaginator from "pagination-apis";
 import InventoryItem from "../../entity/InventoryItem";
 import ItemManager from "./Manager";
 import { NotFoundError } from "routing-controllers";
@@ -45,7 +46,12 @@ export default class ItemManagerImpl implements ItemManager {
 
   async getItemsByMultipleFactors(
     factors: any
-  ): Promise<{ items: InventoryItem[]; count: number }> {
+  ): Promise<{
+    itemsTotal: number;
+    pageItems: InventoryItem[];
+    pageCurrent: number;
+    pageTotal: number;
+  }> {
     const {
       category,
       status,
@@ -56,8 +62,10 @@ export default class ItemManagerImpl implements ItemManager {
       name,
       description,
       id,
-      offset,
       limit,
+      page,
+      sortColumn,
+      sortOrder,
     } = factors;
 
     const queryCondition: string =
@@ -72,11 +80,24 @@ export default class ItemManagerImpl implements ItemManager {
       "AND (item.id = :id OR :idIsNull)";
 
     // Set the number of results to skip, for security we impose skip <= 1000
-    const skip = Math.min(offset || 0, 1000);
+    // const skip = Math.min(offset || 0, 1000);
     // Set the number of results to take, for security we impose take <= 50
-    const take = Math.min(limit || 10, 50);
+    // const take = Math.min(limit || 10, 50);
 
-    const [items, count] = await this.inventoryItemRepository
+    const {
+      limit: pageLimit,
+      skip: offset,
+      page: pageNum,
+      paginate,
+    } = buildPaginator({
+      page: page || 1,
+      limit: limit || 5,
+      maximumLimit: 10,
+    });
+
+    const sortColumnName = sortColumn ? `item.${sortColumn}` : "item.id";
+
+    const [items, total] = await this.inventoryItemRepository
       .createQueryBuilder("item")
       .where(queryCondition, {
         category,
@@ -98,13 +119,20 @@ export default class ItemManagerImpl implements ItemManager {
         id,
         idIsNull: id == null,
       })
-      .skip(skip)
-      .take(take)
+      .skip(offset)
+      .take(pageLimit)
+      .orderBy({
+        [sortColumnName]: sortOrder || "ASC",
+      })
       .getManyAndCount();
 
+    const { totalPages } = paginate(items, total);
+
     return {
-      items,
-      count,
+      itemsTotal: total,
+      pageItems: items,
+      pageCurrent: pageNum,
+      pageTotal: totalPages,
     };
   }
 

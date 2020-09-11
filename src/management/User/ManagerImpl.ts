@@ -1,6 +1,6 @@
 import {
-  LoginDataPayloadType,
-  JWTDataPayloadType,
+  LoginDataPayload,
+  JWTDataPayload,
   signData,
 } from "../../security/JsonWebToken";
 import { NotFoundError, BadRequestError } from "routing-controllers";
@@ -84,7 +84,7 @@ export default class UserManagerImpl implements UserManager {
     }
   }
 
-  async loginUser(loginData: LoginDataPayloadType): Promise<string> {
+  async loginUser(loginData: LoginDataPayload): Promise<string> {
     const { email, password } = loginData;
     try {
       // 1. Look up the login user in database by the email field.
@@ -100,7 +100,7 @@ export default class UserManagerImpl implements UserManager {
        * An exclamation mark ! tells the TypeScript compiler
        * 'don't worry, I know for sure this is not going to be undefined'.
        */
-      const data: JWTDataPayloadType = {
+      const data: JWTDataPayload = {
         id: user.id!,
         name: user.name,
         email: user.email,

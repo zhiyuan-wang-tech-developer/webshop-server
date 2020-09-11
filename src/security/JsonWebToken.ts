@@ -11,14 +11,13 @@ import { readFileSync } from "fs";
 import { Action } from "routing-controllers";
 import { AuthorizationChecker } from "routing-controllers/AuthorizationChecker";
 import path from "path";
-import { isDataURI } from "class-validator";
 
-export declare interface LoginDataPayloadType {
+export declare interface LoginDataPayload {
   email: string;
   password: string;
 }
 
-export declare interface JWTDataPayloadType {
+export declare interface JWTDataPayload {
   id: number;
   name: string;
   email: string;
@@ -30,6 +29,7 @@ const privateKEY: Secret = readFileSync(
   path.join(__dirname, "private.key"),
   "utf8"
 );
+
 // use public key to verify token
 const publicKEY: Secret = readFileSync(
   path.join(__dirname, "public.key"),
@@ -65,7 +65,7 @@ const verifyCallback: VerifyCallback = (error, decoded) => {
  * @summary to sign data and generate JSON web token
  * @returns JSON web token string
  */
-export function signData(data: JWTDataPayloadType): string {
+export function signData(data: JWTDataPayload): string {
   return sign(data, privateKEY, signOptions);
 }
 

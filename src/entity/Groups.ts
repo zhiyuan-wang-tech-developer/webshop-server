@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 import AdminUser from "./AdminUsers";
 
-@Entity({ name: "Groups" })
+@Entity({ name: "Groups", orderBy: { id: "ASC" } })
 export class Group extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number;
