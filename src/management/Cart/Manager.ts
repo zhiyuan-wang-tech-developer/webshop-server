@@ -1,4 +1,4 @@
-import ShoppingCartItem from "../../entity/ShoppingCartItem";
+import ShoppingCartItem from "../../entity/shopping.cart.item";
 
 export declare interface UserCartItemsDataType {
   userId: number | undefined;

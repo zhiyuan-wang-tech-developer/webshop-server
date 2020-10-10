@@ -7,7 +7,7 @@ import {
   Unique,
 } from "typeorm";
 import { IsString, IsEmail, Length, MinLength } from "class-validator";
-import ShoppingCart from "./ShoppingCart";
+import ShoppingCart from "./shopping.cart";
 import { Exclude } from "class-transformer";
 import { hash, compare } from "bcrypt";
 

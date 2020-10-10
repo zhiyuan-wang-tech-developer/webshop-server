@@ -1,5 +1,5 @@
-import City from "../../entity/options/Cities";
-import Category from "../../entity/options/Categories";
+import City from "../../entity/options/city";
+import Category from "../../entity/options/category";
 
 export default interface OptionsManager {
   getCities(): Promise<string[]>;
