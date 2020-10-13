@@ -1,13 +1,12 @@
 import { Service, Inject } from "typedi";
-import ItemsManager, {
-  ITEMS_MANAGER,
-} from "../management/items/manager";
-
-export const ITEMS_SERVICE: string = "items.service";
+import { ITEMS_SERVICE, ITEMS_MANAGER } from "../constants/service.names";
+import ItemsManager from "../management/items/manager";
+import ItemsManagerImpl from "../management/items/manager.impl";
 
 @Service(ITEMS_SERVICE)
 export default class ItemsService {
-  constructor(
-    @Inject(ITEMS_MANAGER) readonly itemsManager: ItemsManager
-  ) {}
+  public readonly itemsManager: ItemsManager;
+  constructor(@Inject(ITEMS_MANAGER) itemsManager: ItemsManagerImpl) {
+    this.itemsManager = itemsManager;
+  }
 }

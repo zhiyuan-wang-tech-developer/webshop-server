@@ -2,7 +2,7 @@ import AdminUser from "../../entity/admin.user";
 import { TableAction } from "../../utils/custom.types";
 import { LoginDataPayload } from "../../security/json.web.token";
 
-export default interface AdminUserManager {
+export default interface AdminUsersManager {
   getAdminUserById(adminUserId: number): Promise<AdminUser>;
 
   getTableActionsByAdminUser(adminUserId: number): Promise<TableAction[]>;

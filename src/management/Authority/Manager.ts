@@ -1,6 +1,6 @@
 import { AuthorityAction } from "../../utils/custom.types";
-import { Table } from "../../entity/table";
-import { Authority } from "../../entity/authority";
+import Table from "../../entity/table";
+import Authority from "../../entity/authority";
 
 export default interface AuthorityManager {
   getGroupsByTableAndAction(

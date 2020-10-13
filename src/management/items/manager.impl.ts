@@ -3,7 +3,8 @@ import { NotFoundError } from "routing-controllers";
 import { Service } from "typedi";
 import buildPaginator from "pagination-apis";
 import InventoryItem from "../../entity/inventory.item";
-import ItemsManager, { ITEMS_MANAGER } from "./manager";
+import ItemsManager from "./manager";
+import { ITEMS_MANAGER } from "../../constants/service.names";
 
 @Service(ITEMS_MANAGER)
 export default class ItemsManagerImpl implements ItemsManager {

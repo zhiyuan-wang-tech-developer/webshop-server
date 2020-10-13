@@ -8,29 +8,24 @@ import {
   Put,
   Delete,
 } from "routing-controllers";
-import AdminUserManager from "../management/admin.user/manager";
-import AdminUserManagerImpl from "../management/admin.user/manager.impl";
 import AdminUser from "../entity/admin.user";
+import AdminUsersService from "../service/admin.users.service";
 import { TableAction } from "../utils/custom.types";
 import { LoginDataPayload } from "../security/json.web.token";
 
 @JsonController("/admin")
 export class AdminUsersController {
-  private adminUserManager: AdminUserManager;
-
-  constructor() {
-    this.adminUserManager = new AdminUserManagerImpl();
-  }
+  constructor(private readonly adminUsersService: AdminUsersService) {}
 
   @Get("/users")
   async getAdminUsers() {
-    const adminUsers: AdminUser[] = await this.adminUserManager.getAdminUsers();
+    const adminUsers: AdminUser[] = await this.adminUsersService.adminUsersManager.getAdminUsers();
     return { adminUsers };
   }
 
   @Get("/users/:id")
   async getAdminUserById(@Param("id") adminUserId: number) {
-    const adminUser: AdminUser = await this.adminUserManager.getAdminUserById(
+    const adminUser: AdminUser = await this.adminUsersService.adminUsersManager.getAdminUserById(
       adminUserId
     );
     return { adminUser };
@@ -38,7 +33,7 @@ export class AdminUsersController {
 
   @Get("/users/:userId/actions")
   async getTableActionsByAdminUser(@Param("userId") adminUserId: number) {
-    const tableActions: TableAction[] = await this.adminUserManager.getTableActionsByAdminUser(
+    const tableActions: TableAction[] = await this.adminUsersService.adminUsersManager.getTableActionsByAdminUser(
       adminUserId
     );
     return { tableActions };
@@ -47,7 +42,7 @@ export class AdminUsersController {
   @Post("/users")
   @HttpCode(201) // Set the default HTTP response code 201 Created
   async createAdminUser(@Body() adminUser: AdminUser) {
-    const createdAdminUser: AdminUser = await this.adminUserManager.createAdminUser(
+    const createdAdminUser: AdminUser = await this.adminUsersService.adminUsersManager.createAdminUser(
       adminUser
     );
     return { createdAdminUser };
@@ -58,7 +53,7 @@ export class AdminUsersController {
     @Param("id") adminUserId: number,
     @Body() adminUser: Partial<AdminUser>
   ) {
-    const updatedAdminUser: AdminUser = await this.adminUserManager.updateAdminUser(
+    const updatedAdminUser: AdminUser = await this.adminUsersService.adminUsersManager.updateAdminUser(
       adminUserId,
       adminUser
     );
@@ -67,7 +62,7 @@ export class AdminUsersController {
 
   @Delete("/users/:id")
   async deleteAdminUser(@Param("id") adminUserId: number) {
-    const adminUserIsDeleted: boolean = await this.adminUserManager.deleteAdminUser(
+    const adminUserIsDeleted: boolean = await this.adminUsersService.adminUsersManager.deleteAdminUser(
       adminUserId
     );
     return { adminUserIsDeleted };
@@ -75,7 +70,7 @@ export class AdminUsersController {
 
   @Post("/login")
   async loginAdminUser(@Body({ required: true }) loginData: LoginDataPayload) {
-    const adminUser: AdminUser = await this.adminUserManager.loginAdminUser(
+    const adminUser: AdminUser = await this.adminUsersService.adminUsersManager.loginAdminUser(
       loginData
     );
     return { adminUser };

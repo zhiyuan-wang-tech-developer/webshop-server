@@ -1,6 +1,6 @@
 import Group from "../../entity/group";
 
-export default interface GroupManager {
+export default interface GroupsManager {
   getGroups(): Promise<Group[]>;
 
   getGroupById(groupId: number): Promise<Group>;

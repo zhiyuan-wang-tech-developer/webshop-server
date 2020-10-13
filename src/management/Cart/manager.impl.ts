@@ -1,24 +1,33 @@
+import { Service, Inject } from "typedi";
 import User from "../../entity/user";
 import ShoppingCartItem from "../../entity/shopping.cart.item";
 import InventoryItem from "../../entity/inventory.item";
-import UserManager from "../users/manager";
-import UserManagerImpl from "../users/manager.impl";
+import CartManager, { UserCartItemsDataType } from "./manager";
+import {
+  CART_MANAGER,
+  USERS_MANAGER,
+  ITEMS_MANAGER,
+} from "../../constants/service.names";
+import UsersManager from "../users/manager";
+import UsersManagerImpl from "../users/manager.impl";
 import ItemsManager from "../items/manager";
 import ItemsManagerImpl from "../items/manager.impl";
-import CartManager, { UserCartItemsDataType } from "./manager";
 
+@Service(CART_MANAGER)
 export default class CartManagerImpl implements CartManager {
-  // Use data mapper pattern for maintainability
-  private userManager: UserManager;
-  private itemManager: ItemsManager;
+  private readonly usersManager: UsersManager;
+  private readonly itemsManager: ItemsManager;
 
-  constructor() {
-    this.userManager = new UserManagerImpl();
-    this.itemManager = new ItemsManagerImpl();
+  constructor(
+    @Inject(USERS_MANAGER) usersManager: UsersManagerImpl,
+    @Inject(ITEMS_MANAGER) itemsManager: ItemsManagerImpl
+  ) {
+    this.usersManager = usersManager;
+    this.itemsManager = itemsManager;
   }
 
   async getItemsFromCart(id: number): Promise<UserCartItemsDataType> {
-    const user: User = await this.userManager.getUserById(id);
+    const user: User = await this.usersManager.getUserById(id);
     return {
       userId: user.id,
       shoppingCartItems: user.shoppingCart.shoppingCartItems,
@@ -30,8 +39,8 @@ export default class CartManagerImpl implements CartManager {
     itemId: number
   ): Promise<UserCartItemsDataType> {
     // Create a new shopping cart item based on the given itemId and add it to the shopping cart of the given userId.
-    const user: User = await this.userManager.getUserById(userId);
-    const inventoryItem: InventoryItem = await this.itemManager.getItemById(
+    const user: User = await this.usersManager.getUserById(userId);
+    const inventoryItem: InventoryItem = await this.itemsManager.getItemById(
       itemId
     );
     const cartItem: ShoppingCartItem = new ShoppingCartItem();
@@ -51,7 +60,7 @@ export default class CartManagerImpl implements CartManager {
     itemId: number,
     amount: number
   ): Promise<UserCartItemsDataType> {
-    const user: User = await this.userManager.getUserById(userId);
+    const user: User = await this.usersManager.getUserById(userId);
     const newCartItems: ShoppingCartItem[] = user.shoppingCart.shoppingCartItems.map(
       (cartItem: ShoppingCartItem) => {
         // value equality not type equality
@@ -75,7 +84,7 @@ export default class CartManagerImpl implements CartManager {
     userId: number,
     itemId: number
   ): Promise<UserCartItemsDataType> {
-    const user: User = await this.userManager.getUserById(userId);
+    const user: User = await this.usersManager.getUserById(userId);
 
     // remove cart item with the given itemId from the 'Shopping Cart Items' Table.
     const cartItemToDelete: ShoppingCartItem[] = user.shoppingCart.shoppingCartItems.filter(
@@ -98,7 +107,7 @@ export default class CartManagerImpl implements CartManager {
   }
 
   async clearCart(userId: number): Promise<UserCartItemsDataType> {
-    const user: User = await this.userManager.getUserById(userId);
+    const user: User = await this.usersManager.getUserById(userId);
 
     // delete all cart items of the given userId
     user.shoppingCart.shoppingCartItems.forEach(

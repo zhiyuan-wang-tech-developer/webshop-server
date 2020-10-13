@@ -1,8 +1,11 @@
 import { DeleteResult } from "typeorm";
+import { Service } from "typedi";
 import Category from "../../entity/options/category";
 import City from "../../entity/options/city";
 import OptionsManager from "./manager";
+import { OPTIONS_MANAGER } from "../../constants/service.names";
 
+@Service(OPTIONS_MANAGER)
 export default class OptionsManagerImpl implements OptionsManager {
   async getCities(): Promise<string[]> {
     const cities: City[] = await City.find();

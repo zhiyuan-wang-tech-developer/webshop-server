@@ -1,7 +1,5 @@
 import InventoryItem from "../../entity/inventory.item";
 
-export const ITEMS_MANAGER: string = "items.manager";
-
 export default interface ItemsManager {
   createItem(item: InventoryItem): Promise<InventoryItem>;
 

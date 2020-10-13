@@ -8,24 +8,19 @@ import {
   HeaderParam,
   Authorized,
 } from "routing-controllers";
-import CartManager from "../management/cart/manager";
-import CartManagerImpl from "../management/cart/manager.impl";
+import CartService from "../service/cart.service";
 import { getUserIdFromAuthorizationHeader } from "../security/json.web.token";
 
 @JsonController("/cart")
 export class CartController {
-  private cartManager: CartManager;
-
-  constructor() {
-    this.cartManager = new CartManagerImpl();
-  }
+  constructor(private readonly cartService: CartService) {}
 
   @Authorized()
   @Get("")
   async getCartItems(@HeaderParam("authorization") authorization: string) {
     const userId: number = getUserIdFromAuthorizationHeader(authorization);
-    console.log(`Get cart items for user ${userId}`);
-    return await this.cartManager.getItemsFromCart(userId);
+    console.debug(`Get cart items for user ${userId}`);
+    return await this.cartService.cartManager.getItemsFromCart(userId);
   }
 
   @Authorized()
@@ -36,7 +31,7 @@ export class CartController {
   ) {
     const userId: number = getUserIdFromAuthorizationHeader(authorization);
     const { itemId } = data;
-    return await this.cartManager.addItemToCart(userId, itemId);
+    return await this.cartService.cartManager.addItemToCart(userId, itemId);
   }
 
   @Authorized()
@@ -47,7 +42,11 @@ export class CartController {
   ) {
     const userId: number = getUserIdFromAuthorizationHeader(authorization);
     const { itemId, amount } = data;
-    return await this.cartManager.updateItemInCart(userId, itemId, amount);
+    return await this.cartService.cartManager.updateItemInCart(
+      userId,
+      itemId,
+      amount
+    );
   }
 
   @Authorized()
@@ -58,13 +57,16 @@ export class CartController {
   ) {
     const userId: number = getUserIdFromAuthorizationHeader(authorization);
     const { itemId } = data;
-    return await this.cartManager.removeItemFromCart(userId, itemId);
+    return await this.cartService.cartManager.removeItemFromCart(
+      userId,
+      itemId
+    );
   }
 
   @Authorized()
   @Delete()
   async clearCart(@HeaderParam("authorization") authorization: string) {
     const userId: number = getUserIdFromAuthorizationHeader(authorization);
-    return await this.cartManager.clearCart(userId);
+    return await this.cartService.cartManager.clearCart(userId);
   }
 }

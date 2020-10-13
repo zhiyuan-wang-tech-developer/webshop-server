@@ -1,7 +1,9 @@
-import { createConnection, Connection } from "typeorm";
+import { createConnection, Connection, useContainer } from "typeorm";
+import { Container } from "typedi";
 import chalk from "chalk";
 
 export const startServerDatabase = async (): Promise<Connection | null> => {
+  useContainer(Container);
   // createConnection method will automatically read connection options
   // from your ormconfig.json file in project root directory or environment variables
   let connection: Connection | null = null;

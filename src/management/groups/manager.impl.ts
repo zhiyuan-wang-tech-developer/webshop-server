@@ -1,9 +1,12 @@
-import { getRepository, Repository, DeleteResult } from "typeorm";
+import { Service } from "typedi";
+import { Repository, DeleteResult, getRepository } from "typeorm";
 import { NotFoundError } from "routing-controllers";
 import Group from "../../entity/group";
-import GroupManager from "./manager";
+import GroupsManager from "./manager";
+import { GROUPS_MANAGER } from "../../constants/service.names";
 
-export default class GroupManagerImpl implements GroupManager {
+@Service(GROUPS_MANAGER)
+export default class GroupsManagerImpl implements GroupsManager {
   private groupRepository: Repository<Group>;
 
   constructor() {

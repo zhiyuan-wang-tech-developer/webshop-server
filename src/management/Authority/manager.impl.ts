@@ -1,9 +1,12 @@
 import { Repository, getRepository, DeleteResult } from "typeorm";
+import { Service } from "typedi";
 import { AuthorityAction } from "../../utils/custom.types";
 import Authority from "../../entity/authority";
 import Table from "../../entity/table";
 import AuthorityManager from "./manager";
+import { AUTHORITY_MANAGER } from "../../constants/service.names";
 
+@Service(AUTHORITY_MANAGER)
 export default class AuthorityManagerImpl implements AuthorityManager {
   private authorityRepository: Repository<Authority>;
 

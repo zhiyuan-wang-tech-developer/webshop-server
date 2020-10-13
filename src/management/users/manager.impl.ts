@@ -1,5 +1,6 @@
-import { NotFoundError, BadRequestError } from "routing-controllers";
 import { getRepository, Repository, UpdateResult, DeleteResult } from "typeorm";
+import { NotFoundError, BadRequestError } from "routing-controllers";
+import { Service } from "typedi";
 import {
   LoginDataPayload,
   JWTDataPayload,
@@ -8,9 +9,11 @@ import {
 import User from "../../entity/user";
 import ShoppingCart from "../../entity/shopping.cart";
 import ShoppingCartItem from "../../entity/shopping.cart.item";
-import UserManager from "./manager";
+import UsersManager from "./manager";
+import { USERS_MANAGER } from "../../constants/service.names";
 
-export default class UserManagerImpl implements UserManager {
+@Service(USERS_MANAGER)
+export default class UsersManagerImpl implements UsersManager {
   // Use data mapper pattern for maintainability
   private userRepository: Repository<User>;
 

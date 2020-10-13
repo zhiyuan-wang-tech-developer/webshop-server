@@ -1,19 +1,22 @@
 import { NotFoundError, BadRequestError } from "routing-controllers";
 import { getRepository, Repository, DeleteResult } from "typeorm";
+import { Service } from "typedi";
 import { AuthorityAction, TableAction } from "../../utils/custom.types";
 import { LoginDataPayload } from "../../security/json.web.token";
 import AdminUser from "../../entity/admin.user";
 import Authority from "../../entity/authority";
 import Table from "../../entity/table";
-import AdminUserManager from "./manager";
+import AdminUsersManager from "./manager";
+import { ADMIN_USERS_MANAGER } from "../../constants/service.names";
 
-export default class AdminUserManagerImpl implements AdminUserManager {
+@Service(ADMIN_USERS_MANAGER)
+export default class AdminUsersManagerImpl implements AdminUsersManager {
   // Use data mapper pattern for maintainability
   private adminUserRepository: Repository<AdminUser>;
 
   constructor() {
     this.adminUserRepository = getRepository(AdminUser);
-    AdminUserManagerImpl.verifySystemAdmin();
+    AdminUsersManagerImpl.verifySystemAdmin();
   }
 
   private static SystemAdmin = {
@@ -29,14 +32,16 @@ export default class AdminUserManagerImpl implements AdminUserManager {
    */
   private static async verifySystemAdmin() {
     const systemAdmin = await AdminUser.findOne(
-      AdminUserManagerImpl.SystemAdmin.id
+      AdminUsersManagerImpl.SystemAdmin.id
     );
     if (
       !systemAdmin ||
       JSON.stringify(systemAdmin) !==
-        JSON.stringify(AdminUserManagerImpl.SystemAdmin)
+        JSON.stringify(AdminUsersManagerImpl.SystemAdmin)
     ) {
-      const newSystemAdmin = AdminUser.create(AdminUserManagerImpl.SystemAdmin);
+      const newSystemAdmin = AdminUser.create(
+        AdminUsersManagerImpl.SystemAdmin
+      );
       newSystemAdmin.id = 1;
       await AdminUser.save(newSystemAdmin);
       console.log(newSystemAdmin);

@@ -9,23 +9,18 @@ import {
 } from "routing-controllers";
 import { AuthorityAction } from "../utils/custom.types";
 import Authority from "../entity/authority";
-import AuthorityManager from "../management/authority/manager";
-import AuthorityManagerImpl from "../management/authority/manager.impl";
+import AuthorityService from "../service/authority.service";
 
 @JsonController("/authorities")
 export class AuthorityController {
-  private authorityManager: AuthorityManager;
-
-  constructor() {
-    this.authorityManager = new AuthorityManagerImpl();
-  }
+  constructor(private readonly authorityService: AuthorityService) {}
 
   @Get("/table/:tableId/action/:action")
   async getGroups(
     @Param("tableId") tableId: number,
     @Param("action") action: AuthorityAction
   ) {
-    const groupIds: number[] = await this.authorityManager.getGroupsByTableAndAction(
+    const groupIds: number[] = await this.authorityService.authorityManager.getGroupsByTableAndAction(
       tableId,
       action
     );
@@ -34,7 +29,7 @@ export class AuthorityController {
 
   @Get("/tables")
   async getTables() {
-    const tables = await this.authorityManager.getTables();
+    const tables = await this.authorityService.authorityManager.getTables();
     return { tables };
   }
 
@@ -43,7 +38,7 @@ export class AuthorityController {
     @Param("groupId") groupId: number,
     @Param("tableId") tableId: number
   ) {
-    const actions: AuthorityAction[] = await this.authorityManager.getActionsByGroupAndTable(
+    const actions: AuthorityAction[] = await this.authorityService.authorityManager.getActionsByGroupAndTable(
       groupId,
       tableId
     );
@@ -53,7 +48,7 @@ export class AuthorityController {
   @Post()
   @HttpCode(201)
   async createAuthority(@Body() authority: Authority) {
-    const createdAuthority = await this.authorityManager.createAuthority(
+    const createdAuthority = await this.authorityService.authorityManager.createAuthority(
       authority
     );
     return { createdAuthority };
@@ -61,7 +56,7 @@ export class AuthorityController {
 
   @Delete()
   async deleteAuthority(@Body() authority: Authority) {
-    const isAuthorityDeleted: boolean = await this.authorityManager.deleteAuthority(
+    const isAuthorityDeleted: boolean = await this.authorityService.authorityManager.deleteAuthority(
       authority
     );
     return { isAuthorityDeleted };
